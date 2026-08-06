@@ -1,6 +1,22 @@
+# Secrets / configuration locale
+.env
+.env.*
+!.env.example
+# Exception : la config du frontend ne contient que des URLs publiques.
+# Les variables VITE_* sont de toute facon integrees au bundle client,
+# elles ne peuvent donc pas etre secretes.
+!frontend/.env
+
+# Python
 __pycache__/
 *.pyc
-#.env
 .venv/
 venv/
+.pytest_cache/
+
+# Node
+node_modules/
+dist/
+
+# Divers
 *.log

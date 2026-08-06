@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
 DB_USER = os.getenv("DB_USER", "biblio_user")
-DB_PASSWORD = os.getenv("DB_PASSWORD", "biblio_password")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
 DB_HOST = os.getenv("DB_HOST", "postgres")
 DB_PORT = os.getenv("DB_PORT", "5432")
 DB_NAME = os.getenv("DB_NAME", "bibliotheque_db")
@@ -18,6 +18,12 @@ if os.getenv("TESTING") == "1":
         poolclass=StaticPool,
     )
 else:
+    if not DB_PASSWORD:
+        raise RuntimeError(
+            "La variable d'environnement DB_PASSWORD est absente. "
+            "Copiez .env.example en .env et renseignez-la."
+        )
+
     SQLALCHEMY_DATABASE_URL = (
         f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     )
